@@ -19,8 +19,16 @@ class ReLULayer
 
   void Forward(arma::cube& input, arma::cube& output)
   {
+    // ReLU
     output = arma::zeros(arma::size(input));
     output = arma::max(input, output);
+
+    // LeakyReLU
+    // output = arma::max(0.01*input, input);
+    
+    // tanh
+    // output = arma::tanh(input);
+
     this->input = input;
     this->output = output;
   }
@@ -28,7 +36,15 @@ class ReLULayer
   void Backward(arma::cube upstreamGradient)
   {
     gradientWrtInput = input;
+    // ReLU
     gradientWrtInput.transform( [](double val) { return val > 0? 1 : 0; } );
+
+    // LeakyReLU
+    // gradientWrtInput.transform( [](double val) { return val > 0? 1 : 0.01; } );
+    
+    // tanh
+    // gradientWrtInput.transform( [](double val) { return (std::pow(std::cosh(val), -1)); });
+
     gradientWrtInput = gradientWrtInput % upstreamGradient;
   }
 
