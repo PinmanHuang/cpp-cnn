@@ -13,11 +13,14 @@
 #include <boost/test/unit_test.hpp>
 #include <fstream>
 
+#include <time.h>
+
 #define DEBUG true
 #define DEBUG_PREFIX "[DEBUG LE NET ]\t"
 
 int main(int argc, char ** argv)
 {
+  clock_t tStart = clock();
   // Read the Kaggle data
   MNISTData md("../data");
 
@@ -283,6 +286,7 @@ int main(int argc, char ** argv)
     }
     fout.close();
   }
+  printf("Time taken: %.2fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
 }
 
 #undef DEBUG
